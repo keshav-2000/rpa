@@ -1,0 +1,61 @@
+Write a solidity program to take 10 numbers from the user and place it in an arrayand perform AND opeeratiion on the odd postion numbers (1,3,5,7,9) and OR operation on remaining numbers and hence perform multiplication of the results and also determine using a smart contract whether the results of AND operation , OR operation and the product
+are part of array or not.
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract BitwiseOperations {
+    uint[10] public numbers;
+    uint public andResult;
+    uint public orResult;
+    uint public product;
+
+    // Set the 10 numbers
+    function setNumbers(uint[10] calldata _numbers) external {
+        for (uint i = 0; i < 10; i++) {
+            numbers[i] = _numbers[i];
+        }
+
+        computeResults();
+    }
+
+    // Perform AND, OR operations and multiplication
+    function computeResults() internal {
+        andResult = numbers[1]; // Start with index 0 (1st position)
+        for (uint i = 3; i < 10; i += 2) {
+            andResult &= numbers[i];
+        }
+
+        orResult = numbers[0]; // Start with index 1 (2nd position)
+        for (uint i = 2; i < 10; i += 2) {
+            orResult |= numbers[i];
+        }
+
+        product = andResult * orResult;
+    }
+
+    // Check if a number exists in the array
+    function existsInArray(uint value) public view returns (bool) {
+        for (uint i = 0; i < 10; i++) {
+            if (numbers[i] == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check if the AND result is in the array
+    function isAndResultInArray() external view returns (bool) {
+        return existsInArray(andResult);
+    }
+
+    // Check if the OR result is in the array
+    function isOrResultInArray() external view returns (bool) {
+        return existsInArray(orResult);
+    }
+
+    // Check if the product is in the array
+    function isProductInArray() external view returns (bool) {
+        return existsInArray(product);
+    }
+}
