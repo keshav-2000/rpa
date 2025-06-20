@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ModCalculator {
+    // Constants from DOB 05/07/2001
+    uint8 constant DD = 5;
+    uint8 constant MM = 7;
+    uint8 constant YY = 1;
+
+    function compute(uint num1, uint num2) public pure returns (uint addModResult, uint mulModResult) {
+        // Perform bitwise AND on DD and MM for addmod
+        uint mod1 = DD & MM; // 5 & 7 = 5
+
+        // Perform bitwise OR on YY and YY for mulmod
+        uint mod2 = YY | YY; // 1 | 1 = 1
+
+        // Avoid modulo by zero
+        require(mod1 != 0 && mod2 != 0, "Modulo cannot be zero");
+
+        // Calculate addmod and mulmod
+        addModResult = addmod(num1, num2, mod1);
+        mulModResult = mulmod(num1, num2, mod2);
+    }
+}

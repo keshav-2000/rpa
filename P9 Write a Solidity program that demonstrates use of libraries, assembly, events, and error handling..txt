@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+/// @title MathLib - A library with reusable math functions
+library MathLib {
+    function square(uint x) internal pure returns (uint) {
+        return x * x;
+    }
+
+    function cube(uint x) internal pure returns (uint) {
+        return x * x * x;
+    }
+}
+
+/// @title Contract demonstrating library, assembly, events, and error handling
+contract FeaturesDemo {
+    using MathLib for uint;
+
+    address public owner;
+
+    // Event to log computations
+    event Computed(address indexed user, string operation, uint input, uint result);
+
+    // Custom error for unauthorized access
+    error NotOwner(address caller);
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    /// @notice Uses MathLib and emits event
+    function calculateSquare(uint value) external returns (uint) {
+        uint result = value.square();
+        emit Computed(msg.sender, "square", value, result);
+        return result;
+    }
+
+    /// @notice Uses inline assembly to double a value
+    function doubleValue(uint x) public pure returns (uint result) {
+        assembly {
+            result := mul(x, 2)
+        }
+    }
+
+    /// @notice Restricted to owner, demonstrates custom error
+    function privilegedAction() external view {
+        if (msg.sender != owner) {
+            revert NotOwner(msg.sender);
+        }
+        // privileged logic here
+    }
+
+    /// @notice Demonstrates require, assert, and emit
+    function safeDivide(uint a, uint b) external returns (uint result) {
+        require(b != 0, "Division by zero");
+
+        result = a / b;
+
+        // assert is used for internal checks
+        assert(result * b <= a); // This should always hold
+
+        emit Computed(msg.sender, "divide", a, result);
+    }
+}

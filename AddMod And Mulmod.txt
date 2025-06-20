@@ -1,0 +1,37 @@
+write a program in solidity to determine if the 1st no. is greater then the 2nd no. then find AND operation of the numbers and also find Addmod with the result else find the OR operation and the product of the 2 no. and perform Mulmod of the 2 no. with the result also ensure that is any one no. is zero then display the message one no. is zero kindly enter both positive no.
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract NumberOperations {
+
+    // Struct to hold two results with labels (optional readability)
+    struct OperationResult {
+        string operation1;
+        uint value1;
+        string operation2;
+        uint value2;
+    }
+
+    // Function to perform operations and return results
+    function performOperations(uint num1, uint num2)
+        public
+        pure
+        returns (string memory operation1, uint value1, string memory operation2, uint value2)
+    {
+        // Check for zero values
+        if (num1 == 0 || num2 == 0) {
+            return ("One number is zero. Kindly enter both positive numbers.", 0, "", 0);
+        }
+
+        if (num1 > num2) {
+            uint andResult = num1 & num2;
+            uint addmodResult = addmod(andResult, num1, num2);
+            return ("AND Operation Result", andResult, "Addmod Result", addmodResult);
+        } else {
+            uint orResult = num1 | num2;
+            uint mulmodResult = mulmod(num1, num2, orResult);
+            return ("OR Operation Result", orResult, "Mulmod Result", mulmodResult);
+        }
+    }
+}

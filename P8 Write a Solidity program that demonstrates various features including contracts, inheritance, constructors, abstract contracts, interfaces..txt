@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+/// @title Interface Definition
+interface ICalculator {
+    function add(uint a, uint b) external pure returns (uint);
+    function subtract(uint a, uint b) external pure returns (uint);
+}
+
+/// @title Abstract Contract for Shared Math Logic
+abstract contract MathBase {
+    // Abstract function (must be implemented)
+    function multiply(uint a, uint b) public pure virtual returns (uint);
+
+    // Concrete function (optional override)
+    function divide(uint a, uint b) public pure returns (uint) {
+        require(b != 0, "Cannot divide by zero");
+        return a / b;
+    }
+}
+
+/// @title Main Calculator Contract
+/// @notice Implements interface and inherits from abstract base
+contract Calculator is ICalculator, MathBase {
+    address public owner;
+
+    // Constructor
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Interface Implementations
+    function add(uint a, uint b) external pure override returns (uint) {
+        return a + b;
+    }
+
+    function subtract(uint a, uint b) external pure override returns (uint) {
+        return a - b;
+    }
+
+    // Implementing abstract method
+    function multiply(uint a, uint b) public pure override returns (uint) {
+        return a * b;
+    }
+
+    // Inherited divide() method from MathBase is also available
+}
+
+/// @title Advanced Calculator Inheriting Calculator
+contract AdvancedCalculator is Calculator {
+    function power(uint base, uint exponent) public pure returns (uint result) {
+        result = 1;
+        for (uint i = 0; i < exponent; i++) {
+            result *= base;
+        }
+    }
+}
