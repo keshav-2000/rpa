@@ -1,0 +1,37 @@
+Write a solidity program to determine if the first number is greater than the 2nd number than find the and operation of the numbers else find the OR operation hence
+find the product of the 2 numbers with the results of the operation also ensure that if any number is 0 than it should revert the transaction with the message
+"One number is zero, kindly enter both positive number"
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract BitwiseComparison {
+    uint public num1;
+    uint public num2;
+    uint public result;    // AND or OR result
+    uint public product;   // Final product
+
+    // Function to set the numbers and perform logic
+    function setNumbers(uint _num1, uint _num2) external {
+        require(_num1 != 0 && _num2 != 0, "One number is zero, kindly enter both positive number");
+
+        num1 = _num1;
+        num2 = _num2;
+
+        if (num1 > num2) {
+            result = num1 & num2; // Perform AND
+        } else {
+            result = num1 | num2; // Perform OR
+        }
+
+        product = num1 * num2 * result; // Final product with result of AND/OR
+    }
+
+    // Optional helper to get all results at once
+    function getResults() external view returns (uint, uint, uint, uint) {
+        return (num1, num2, result, product);
+    }
+}
+
+
+
