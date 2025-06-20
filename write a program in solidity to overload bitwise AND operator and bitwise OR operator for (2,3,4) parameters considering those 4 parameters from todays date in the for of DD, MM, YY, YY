@@ -1,0 +1,37 @@
+write a program in solidity to overload bitwise AND operator and bitwise OR operator for (2,3,4) parameters considering those 4 parameters from todays date in the for of DD, MM, YY, YY
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract BitwiseOverload {
+
+    // Bitwise AND for 2 parameters
+    function and2(uint a, uint b) public pure returns (uint) {
+        return a & b;
+    }
+
+    // Bitwise AND for 3 parameters
+    function and3(uint a, uint b, uint c) public pure returns (uint) {
+        return a & b & c;
+    }
+
+    // Bitwise AND for 4 parameters
+    function and4(uint a, uint b, uint c, uint d) public pure returns (uint) {
+        return a & b & c & d;
+    }
+
+    // Bitwise OR for 2 parameters
+    function or2(uint a, uint b) public pure returns (uint) {
+        return a | b;
+    }
+
+    // Bitwise OR for 3 parameters
+    function or3(uint a, uint b, uint c) public pure returns (uint) {
+        return a | b | c;
+    }
+
+    // Bitwise OR for 4 parameters
+    function or4(uint a, uint b, uint c, uint d) public pure returns (uint) {
+        return a | b | c | d;
+    }
+}
